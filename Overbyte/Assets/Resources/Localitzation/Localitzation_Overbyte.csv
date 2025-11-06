@@ -1,0 +1,101 @@
+ID,ES,EN
+general_loading,Cargando...,Loading...
+general_console,CONSOLA,CONSOLE
+general_close,CERRAR,CLOSE
+general_retry,REINTENTAR,RETRY
+general_confirm,CONFIRMAR,CONFIRM
+general_return,VOLVER,RETURN
+general_exit,SALIR,EXIT
+general_settings,AJUSTES,SETTINGS
+gameloader_init,Inicializando sistema...,Initializing Game Loader...
+gameloader_version,Comprobando juego...,Checking game...
+gameloader_versionok,Juego comprobado,Game checked
+gameloader_versiondifferent,Actualice el juego,Update the game
+gameloader_versionerror,Error al comprobar el juego,Error checking the game
+gameloader_versionretry,Comprobando juego de nuevo...,Checking game again...
+gameloader_api,Conectando al servicio...,Connecting to the service
+gameloader_apiok,Esperando respuesta del servicio...,Waiting response from the service
+gameloader_apierror,Error conectando con el servicio,Error connecting to the service
+gameloader_apiretry,Conectando al servicio de nuevo...,Connecting to the service again...
+gameloader_websocket,Conectando con el servidor...,Connecting to the server...
+gameloader_websocketok,Esperando respuesta del servidor...,Waiting response from the server...
+gameloader_websocketerror,Error conectando con el servidor,Error connecting to the server
+gameloader_websocketretry,Conectando con el servidor de nuevo...,Connecting to the server again...
+gameloader_websocketerrorgeneral,Falla al conectarse con el servidor,Failed to connect to the server
+gameloader_lobby,Cargando lobby...,Loading lobby...
+lobby_play,JUGAR,PLAY
+lobby_matchfound,PARTIDA LISTA,MATCH READY
+lobby_queue,1v1,1v1
+lobby_queuequit,X,X
+lobby_queuetitle,Cambiar Modo de Juego,Change Game Mode
+lobby_queuegamemode1,1v1,1v1
+lobby_queuegamemode2,2v2,2v2
+lobby_queuegamemode3,3v3,3v3
+lobby_queuegamemode4,4v4,4v4
+esc_title,Menú del juego,Game Menu
+hud_hand,Manos,Hand
+settings_title,Ajustes,Settings
+settings_section_gameplay,Juego,Gameplay
+settings_section_audio,Audio,Audio
+settings_section_video,Vídeo,Video
+settings_section_controls,Controles,Controls
+settings_section_crosshair,Punto de mira,Crosshair
+settings_section_credits,Créditos,Credits
+settings_gameplay_language,Idioma,Language
+settings_gameplay_language_es,Español,Spanish
+settings_gameplay_language_en,Inglés,English
+settings_gameplay_toggleaim,Alternar Apuntado,Toggle Aim
+settings_gameplay_toggleautoreload,Altenar Recargar Automáticamente,Toggle Auto-Reload
+settings_gameplay_dynamicfov,FOV Dinámico,Dynamic FOV
+settings_gameplay_renderdamage,Dibujar Números de Daño,Render Damage Numbers
+settings_audio_master,Volumen General,Master Volume
+settings_audio_bgm,Volumen Música de Fondo,BGM Volume
+settings_audio_sfx,Volumen Efectos de Sonido,SFX Volume
+settings_audio_muteunfocused,Silenciar al Minimizar,Mute on Unfocused
+settings_video_fullscreenmode,Modo de Pantalla,Screen Mode
+settings_video_fullscreenmode_fullscreen,Pantalla Completa,Fullscreen
+settings_video_fullscreenmode_maxwindow,Ventana Completa,Maximized Windowed
+settings_video_fullscreenmode_window,Ventana,Windowed
+settings_video_screensize,Resolución de la Pantalla,Screen Resolution
+settings_video_graphicsquality,Calidad de Gráficos,Graphics Quality
+settings_video_graphicsquality_low,Bajos,Low
+settings_video_graphicsquality_mid,Medio,Mid
+settings_video_graphicsquality_high,Alto,High
+settings_video_graphicsquality_ultra,Ultra,Ultra
+settings_video_vsync,Sincronización Vertical,VSync
+settings_video_limitfps,Limitar FPS,Limit FPS
+settings_video_limitfps_unlimitted,Ilimitado,Unlimited
+settings_controls_mousesensitivity,Sensibilidad del Mouse,Mouse Sensitivity
+settings_controls_controlsensitivity,Sensibilidad del Mando,Control Sensitivity
+settings_controls_inverty,Invertir Y,Invert Y
+settings_crosshair_preview,Vista Previa,Preview
+settings_crosshair_style,Estilo de la Mira,Crosshair Style
+settings_crosshair_style_default,Por Defecto,Default
+settings_crosshair_style_dot,Punto,Dot
+settings_crosshair_style_plus,Más,Plus
+settings_crosshair_style_defaultbig,Por Defecto Grande,Default Bigger
+settings_crosshair_style_dots,Puntos,Dots
+settings_crosshair_style_eye,Ojo,Eye
+settings_crosshair_style_mounth,Boca,Mounth
+settings_crosshair_style_mounthsecond,Boca Dos,Mounth Second
+settings_crosshair_style_cross,Equis,Cross
+settings_crosshair_color,Color de la Mira,Crosshair Color
+settings_crosshair_color_red,Rojo,Red
+settings_crosshair_color_green,Verde,Green
+settings_crosshair_color_blue,Azul,Blue
+settings_crosshair_color_yellow,Amarillo,Yellow
+settings_crosshair_color_cyan,Cian,Cyan
+settings_crosshair_color_pink,Rosa,Pink
+settings_crosshair_color_white,Blanco,White
+popuptype_connectionrefused_title,Conexión a Internet rechazada,Internet Connection Refused
+popuptype_connectionrefused_description,Has sido desconectado. Por favor compruebe su conexión.,You have been disconnected. Please check your connection.
+popuptype_roomdeleted_title,Sala vacía,Room empty
+popuptype_roomdeleted_description,La sala esta vacía; has sido echeado.,The room is empty; you have been kicked out.
+popuptype_notserver_title,Servidor no disponible,Server unavailable
+popuptype_notserver_description,Servidor no disponible; estará en mantenimiento o apagado por X motivo; inténtalo más tarde.,Server unavailable; it will be under maintenance or shut down for X reason; please try again later.
+popuptype_differentversion_title,Versión diferente,Different Version
+popuptype_differentversion_description,Las versiones del juego y del servidor no corresponden; compruebe si tiene la última versión.,The game and server versions do not match; please check if you have the latest version.
+popuptype_exitconfirmation_title,Salir de la sala,Exit room
+popuptype_exitconfirmation_description,¿Está seguro de que desea salir de esta sala?,Are you sure you want to leave this room?
+popuptype_roominactive_title,Sala inactiva,Room inactive
+popuptype_roominactive_description,La sala ha estado inactiva por un tiempo; has sido echado.,The room has been inactive for a while; you have been kicked.

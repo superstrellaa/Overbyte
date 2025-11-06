@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76230fbeb90997742acffb2270308218, type: 3}
+  m_Name: HandGun
+  m_EditorClassIdentifier: 
+  weaponName: HandGun
+  fireRate: 0
+  isAutomatic: 0
+  burstCount: 1
+  muzzlePrefab: {fileID: 1000010254994808, guid: 9defeac88977c0d448aa4541073ee9e4, type: 3}
+  bulletHolePrefab: {fileID: 1000010355441670, guid: 02a509a7fa70ed740ba4197e20c5d32d, type: 3}
+  bulletHoleDelay: 0.05
+  magazineSize: 12
+  recoilUp: 1
+  recoilBack: 0.1
+  recoilRecovery: 6
+  recoilSide: 0
