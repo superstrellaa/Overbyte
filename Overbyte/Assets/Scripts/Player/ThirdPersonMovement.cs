@@ -29,7 +29,6 @@ public class ThirdPersonMovement : MonoBehaviour
     public List<WeaponConfigSO> weaponConfigs;
     private WeaponConfigSO currentWeaponConfig;
 
-
     private static readonly string[] weaponNames = {
         "Nothing",
         "HandGun",
@@ -53,7 +52,7 @@ public class ThirdPersonMovement : MonoBehaviour
     public float minLatency = 0.05f;
     public float maxLatency = 0.2f;
 
-    private enum WeaponSlot { Nothing, LittleGun, BigGun }
+    public enum WeaponSlot { Nothing, LittleGun, BigGun }
     private WeaponSlot currentSlot = WeaponSlot.Nothing;
     private Dictionary<WeaponSlot, string> defaultWeapons = new Dictionary<WeaponSlot, string>
     {
@@ -61,6 +60,10 @@ public class ThirdPersonMovement : MonoBehaviour
         { WeaponSlot.LittleGun, "HandGun" },
         { WeaponSlot.BigGun, "Predator" }
     };
+    private int littleGunIndex;
+    private int bigGunIndex;
+    private WeaponConfigSO littleGunConfig;
+    private WeaponConfigSO bigGunConfig;
     private int[] currentAmmo = new int[2];
     private bool isReloading = false;
     private float reloadDuration = 2f;
@@ -194,6 +197,13 @@ public class ThirdPersonMovement : MonoBehaviour
         lastSentPosition = transform.position;
         lastSentRotationY = transform.eulerAngles.y;
         lastSentVelocity = Vector3.zero;
+
+        littleGunIndex = weaponNames.ToList().IndexOf(defaultWeapons[WeaponSlot.LittleGun]);
+        bigGunIndex = weaponNames.ToList().IndexOf(defaultWeapons[WeaponSlot.BigGun]);
+
+        littleGunConfig = weaponConfigs[littleGunIndex - 1];
+        bigGunConfig = weaponConfigs[bigGunIndex - 1];
+
         EquipSlot(WeaponSlot.Nothing);
     }
 
@@ -454,6 +464,57 @@ public class ThirdPersonMovement : MonoBehaviour
         }
     }
 
+    public void ChangeSlotWeapon(WeaponSlot slot, string newWeaponName)
+    {
+        if (slot == WeaponSlot.Nothing)
+        {
+            LogManager.Log("You cannot change weapon for the 'Nothing' slot.", LogType.Warning);
+            return;
+        }
+
+        int newWeaponIndex = weaponNames.ToList().IndexOf(newWeaponName);
+        if (newWeaponIndex < 0)
+        {
+            LogManager.Log($"Weapon '{newWeaponName}' not found in weapon names list.", LogType.Error);
+            return;
+        }
+
+        WeaponConfigSO newConfig = weaponConfigs[newWeaponIndex - 1];
+
+        switch (slot)
+        {
+            case WeaponSlot.LittleGun:
+                littleGunIndex = newWeaponIndex;
+                littleGunConfig = newConfig;
+                break;
+
+            case WeaponSlot.BigGun:
+                bigGunIndex = newWeaponIndex;
+                bigGunConfig = newConfig;
+                break;
+        }
+
+        if (currentSlot == slot)
+        {
+            currentWeaponIndex = newWeaponIndex;
+            currentWeaponConfig = newConfig;
+
+            if (currentWeaponInstance != null)
+                Destroy(currentWeaponInstance);
+            currentWeaponInstance = Instantiate(weaponPrefabs[newWeaponIndex - 1], weaponHolder);
+            currentWeaponInstance.transform.localPosition = Vector3.zero;
+            currentWeaponInstance.transform.localRotation = Quaternion.identity;
+
+            HUDManager.Instance.UpdateGunName(newWeaponName);
+            int slotIndex = slot == WeaponSlot.LittleGun ? 0 : 1;
+            if (currentAmmo[slotIndex] == 0)
+                currentAmmo[slotIndex] = currentWeaponConfig.magazineSize;
+            HUDManager.Instance.UpdateAmmoCount(currentAmmo[slotIndex]);
+        }
+
+        LogManager.LogDebugOnly($"Changed weapon in slot {slot} to {newWeaponName}", LogType.Gameplay);
+    }
+
     public void ConfigureAimInput()
     {
         aimAction.started -= OnAimStarted;
@@ -515,14 +576,6 @@ public class ThirdPersonMovement : MonoBehaviour
     private void EquipSlot(WeaponSlot slot)
     {
         currentSlot = slot;
-        string weaponName = defaultWeapons[slot];
-
-        int index = weaponNames.ToList().IndexOf(weaponName);
-        if (index < 0)
-        {
-            Debug.LogError($"EquipSlot: weapon '{weaponName}' not found in weaponNames!");
-            return;
-        }
 
         if (currentWeaponInstance != null)
             Destroy(currentWeaponInstance);
@@ -531,37 +584,40 @@ public class ThirdPersonMovement : MonoBehaviour
         {
             currentWeaponConfig = null;
             currentWeaponIndex = 0;
+
             HUDManager.Instance.UpdateGunName(LocalitzationManager.Instance.GetKey("hud_hand"));
             HUDManager.Instance.UpdateSelectedGun(0);
             HUDManager.Instance.UpdateAmmoCount(0);
+
+            if (NetworkManager.Instance.IsConnected)
+                NetworkManager.Instance.Send("{\"type\":\"changeGun\",\"gun\":\"Nothing\"}");
+            return;
         }
-        else
+
+        int weaponIndex = slot == WeaponSlot.LittleGun ? littleGunIndex : bigGunIndex;
+        currentWeaponConfig = slot == WeaponSlot.LittleGun ? littleGunConfig : bigGunConfig;
+
+        if (weaponIndex <= 0 || currentWeaponConfig == null)
         {
-            currentWeaponConfig = weaponConfigs[index - 1];
-            currentWeaponIndex = index;
-            currentWeaponInstance = Instantiate(weaponPrefabs[index - 1], weaponHolder);
-            currentWeaponInstance.transform.localPosition = Vector3.zero;
-            currentWeaponInstance.transform.localRotation = Quaternion.identity;
-
-            HUDManager.Instance.UpdateGunName(weaponName);
-            int hudSlot = slot == WeaponSlot.LittleGun ? 1 : 2;
-            HUDManager.Instance.UpdateSelectedGun(hudSlot);
-
-            if (slot == WeaponSlot.LittleGun)
-            {
-                if (currentAmmo[0] == 0)
-                    currentAmmo[0] = currentWeaponConfig.magazineSize;
-
-                HUDManager.Instance.UpdateAmmoCount(currentAmmo[0]);
-            }
-            else if (slot == WeaponSlot.BigGun)
-            {
-                if (currentAmmo[1] == 0)
-                    currentAmmo[1] = currentWeaponConfig.magazineSize;
-
-                HUDManager.Instance.UpdateAmmoCount(currentAmmo[1]);
-            }
+            Debug.LogError($"EquipSlot: configuración inválida para {slot}");
+            return;
         }
+
+        currentWeaponIndex = weaponIndex;
+        string weaponName = weaponNames[weaponIndex];
+        currentWeaponInstance = Instantiate(weaponPrefabs[weaponIndex - 1], weaponHolder);
+        currentWeaponInstance.transform.localPosition = Vector3.zero;
+        currentWeaponInstance.transform.localRotation = Quaternion.identity;
+
+        HUDManager.Instance.UpdateGunName(weaponName);
+        int hudSlot = slot == WeaponSlot.LittleGun ? 1 : 2;
+        HUDManager.Instance.UpdateSelectedGun(hudSlot);
+
+        int slotIndex = slot == WeaponSlot.LittleGun ? 0 : 1;
+        if (currentAmmo[slotIndex] == 0)
+            currentAmmo[slotIndex] = currentWeaponConfig.magazineSize;
+
+        HUDManager.Instance.UpdateAmmoCount(currentAmmo[slotIndex]);
 
         if (NetworkManager.Instance.IsConnected)
             NetworkManager.Instance.Send($"{{\"type\":\"changeGun\",\"gun\":\"{weaponName}\"}}");

@@ -34,6 +34,9 @@ lobby_queuegamemode3,3v3,3v3
 lobby_queuegamemode4,4v4,4v4
 esc_title,Menú del juego,Game Menu
 hud_hand,Manos,Hand
+selectweapon_title,Seleccionar Arma,Select Weapon
+selectweapon_section_littlegun,Armas Pequeñas,Little Guns
+selectweapon_section_biggun,Armas Grandes,Big Guns
 settings_title,Ajustes,Settings
 settings_section_gameplay,Juego,Gameplay
 settings_section_audio,Audio,Audio

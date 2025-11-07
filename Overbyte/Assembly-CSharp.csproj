@@ -65,6 +65,7 @@
     <Compile Include="Assets\Scripts\Managers\Localitzation\Components\Utils\LocalizedText.cs" />
     <Compile Include="Assets\Scripts\Managers\Audio\SoundData.cs" />
     <Compile Include="Assets\Scripts\Network\Player\PlayerNetworkId.cs" />
+    <Compile Include="Assets\Scripts\Managers\Weapons\SelectWeaponManager.cs" />
     <Compile Include="Assets\Scripts\Managers\HUD\HUDManager.cs" />
     <Compile Include="Assets\Scripts\Network\Messages\MessageHandler.cs" />
     <Compile Include="Assets\Scripts\Managers\Settings\SettingsManager.cs" />
