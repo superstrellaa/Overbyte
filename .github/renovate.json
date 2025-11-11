@@ -1,0 +1,48 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended"
+  ],
+  "description": "Renovate Config for Overbyte",
+  "enabledManagers": [
+    "npm",
+    "dockerfile",
+    "docker-compose"
+  ],
+  "ignorePaths": [
+    "**/Assets/**",
+    "**/ProjectSettings/**",
+    "**/Packages/**",
+    "**/*.unity",
+    "**/*.meta"
+  ],
+  "packageRules": [
+    {
+      "matchManagers": [
+        "npm"
+      ],
+      "groupName": "node dependencies",
+      "groupSlug": "node-deps",
+      "enabled": true
+    },
+    {
+      "matchManagers": [
+        "dockerfile",
+        "docker-compose"
+      ],
+      "groupName": "docker stuff",
+      "groupSlug": "docker"
+    }
+  ],
+  "labels": [
+    "dependencies",
+    "node",
+    "docker"
+  ],
+  "prHourlyLimit": 2,
+  "prConcurrentLimit": 4,
+  "timezone": "Europe/Madrid",
+  "dependencyDashboard": true,
+  "dependencyDashboardTitle": "📦 Renovate Dependency Dashboard",
+  "dependencyDashboardApproval": false
+}
