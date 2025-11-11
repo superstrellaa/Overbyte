@@ -13,7 +13,7 @@ services:
     environment:
       - DATABASE_URL=postgresql://postgres:testpassword@db:5432/overbyte?schema=public
   db:
-    image: postgres:15-alpine
+    image: postgres:18-alpine
     container_name: overbyte-db
     restart: unless-stopped
     environment:
