@@ -33,7 +33,7 @@
     "windows:clear:replays": "powershell -Command \"Remove-Item ./replays/replay_*.log -ErrorAction SilentlyContinue\""
   },
   "dependencies": {
-    "@prisma/client": "^6.14.0",
+    "@prisma/client": "^7.0.0",
     "dotenv": "^17.0.0",
     "joi": "^18.0.0",
     "jsonwebtoken": "^9.0.2",
@@ -44,6 +44,6 @@
   },
   "devDependencies": {
     "nodemon": "^3.0.3",
-    "prisma": "^6.14.0"
+    "prisma": "^7.0.0"
   }
 }
