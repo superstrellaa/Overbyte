@@ -57,8 +57,13 @@ function initWebSocket(server) {
 
     ws.on("close", () => {
       room.removePlayer(uuid);
+
       if (ws._heartbeat) ws._heartbeat.stop();
       logger.info("WS player disconnected", { uuid, roomId });
+    });
+
+    ws.on("error", (err) => {
+      logger.error("WS socket error", { error: err.message, roomId, uuid });
     });
   });
 }

@@ -1,4 +1,3 @@
-const { x } = require("joi");
 const WebSocket = require("ws");
 
 const ROOM_ID = process.argv[2] || "test-room";
@@ -29,7 +28,7 @@ ws.on("open", () => {
         vz: (Math.random() - 0.5) * 10,
       })
     );
-  }, 1);
+  }, 2000);
 });
 
 ws.on("message", (raw) => {

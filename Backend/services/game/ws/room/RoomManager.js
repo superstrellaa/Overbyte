@@ -7,6 +7,15 @@ class RoomManager {
 
   createRoom(id, options) {
     const room = new Room(id, options);
+
+    room.onCancel = (roomId) => {
+      this.deleteRoom(roomId);
+    };
+
+    room.onEmpty = (roomId) => {
+      this.deleteRoom(roomId);
+    };
+
     this.rooms.set(id, room);
     return room;
   }
