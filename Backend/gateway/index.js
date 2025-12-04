@@ -35,6 +35,7 @@ app.get("/", (req, res) => {
   res.json({ message: "Overbyte Gateway API" });
 });
 
+require("./routes/authProxy")(app);
 require("./routes/versionProxy")(app);
 
 app.listen(PORT, () => logger.info("Gateway listening", { port: PORT }));
