@@ -1,18 +1,19 @@
 const WebSocket = require("ws");
 
 const ROOM_ID = process.argv[2] || "test-room";
-const UUID = process.argv[3] || "test-" + Math.floor(Math.random() * 9999);
+const AccessToken =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJEQzBZcXl3a2hSIiwiaWF0IjoxNzY1MDI1OTMwLCJleHAiOjE3NjUwMjY4MzB9.IAFAQ0hRgYq9df8Iy02wm8s69d5jCid00uk3MH-N2w8";
 const HOST = "localhost";
 const PORT = 3005;
 
-const wsURL = `ws://${HOST}:${PORT}/?room=${ROOM_ID}&uuid=${UUID}`;
+const wsURL = `ws://${HOST}:${PORT}/?room=${ROOM_ID}&accessToken=${AccessToken}`;
 
 console.log("Connecting to:", wsURL);
 
 const ws = new WebSocket(wsURL);
 
 ws.on("open", () => {
-  console.log("Connected as", UUID);
+  console.log("Connected as", AccessToken);
 
   // Envía un mensaje de test cada 3s
   setInterval(() => {

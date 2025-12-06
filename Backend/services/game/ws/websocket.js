@@ -1,4 +1,5 @@
 const WebSocket = require("ws");
+const jwt = require("jsonwebtoken");
 const logger = require("@overbyte-backend/shared-logger");
 
 const RoomManager = require("./room/RoomManager");
@@ -14,30 +15,40 @@ function initWebSocket(server) {
     const url = new URL(req.url, `http://${req.headers.host}`);
 
     const roomId = url.searchParams.get("room");
-    const uuid = url.searchParams.get("uuid");
+    const accessToken = url.searchParams.get("accessToken");
 
-    logger.info("WS incoming connection", { roomId, uuid });
-
-    if (!roomId || !uuid) {
-      ws.send(JSON.stringify({ error: "Missing room or uuid" }));
+    if (!roomId || !accessToken) {
+      ws.send(JSON.stringify({ error: "Missing room or accessToken" }));
       return ws.close();
     }
+
+    let userId;
+
+    try {
+      const decoded = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET);
+      userId = decoded.userId;
+    } catch (err) {
+      ws.send(JSON.stringify({ error: "Invalid or expired accessToken" }));
+      logger.warn("WS invalid access token", { reason: err.message });
+      return ws.close();
+    }
+
+    logger.info("WS incoming connection", { roomId, userId });
 
     const room = roomManager.getRoom(roomId);
 
     if (!room) {
       ws.send(JSON.stringify({ error: "Room not found" }));
-      logger.warn("WS room not found", { roomId, uuid });
+      logger.warn("WS room not found", { roomId, userId });
       return ws.close();
     }
 
-    room.addPlayer(uuid, ws);
+    room.addPlayer(userId, ws);
+    attachHeartbeat(ws, userId, room);
 
-    attachHeartbeat(ws, uuid, room);
+    logger.info("WS player connected", { userId, roomId });
 
-    logger.info("WS player connected", { uuid, roomId });
-
-    ws.send(JSON.stringify({ type: "joined", roomId, uuid }));
+    ws.send(JSON.stringify({ type: "joined", roomId, userId }));
 
     ws.on("message", (raw) => {
       let msg;
@@ -52,18 +63,22 @@ function initWebSocket(server) {
         return;
       }
 
-      handleClientMessage(room, uuid, msg);
+      handleClientMessage(room, userId, msg);
     });
 
     ws.on("close", () => {
-      room.removePlayer(uuid);
+      room.removePlayer(userId);
 
       if (ws._heartbeat) ws._heartbeat.stop();
-      logger.info("WS player disconnected", { uuid, roomId });
+      logger.info("WS player disconnected", { userId, roomId });
     });
 
     ws.on("error", (err) => {
-      logger.error("WS socket error", { error: err.message, roomId, uuid });
+      logger.error("WS socket error", {
+        error: err.message,
+        roomId,
+        userId,
+      });
     });
   });
 }

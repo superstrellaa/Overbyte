@@ -29,11 +29,6 @@ class Room {
       if (connected !== this.maxPlayers && this.status === "waiting") {
         this.status = "cancelled";
 
-        this.broadcast({
-          type: "roomCancelled",
-          reason: "not_enough_players",
-        });
-
         for (const [uuid, slot] of this.players.entries()) {
           try {
             if (slot.ws && slot.ws.readyState === WebSocket.OPEN) {
