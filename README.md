@@ -23,3 +23,4 @@
 - 3: Rate Limit execed
 - 4: Forbidden authentication
 - 5: Invalid State: Server closed or unknow
+- 6: Expired
