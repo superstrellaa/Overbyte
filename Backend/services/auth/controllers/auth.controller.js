@@ -13,7 +13,7 @@ module.exports = {
     if (!validateInternalApiKey(req, res)) return;
 
     const { username } = req.body;
-    if (!username) return res.status(400).json({ error: "Username required" });
+    if (!username) return res.json({ code: "21", error: "Username required" });
 
     let user = await prisma.user.findUnique({ where: { username } });
 
@@ -35,18 +35,18 @@ module.exports = {
   refresh: async (req, res) => {
     const { refreshToken } = req.body;
     if (!refreshToken)
-      return res.status(403).json({ error: "Missing refresh token" });
+      return res.json({ code: "21", error: "Missing refresh token" });
 
     const dbToken = await prisma.refreshToken.findUnique({
       where: { token: refreshToken },
     });
 
     if (!dbToken)
-      return res.status(403).json({ error: "Invalid refresh token" });
+      return res.json({ code: "27", error: "Invalid refresh token" });
 
     if (dbToken.expiresAt < new Date()) {
       await prisma.refreshToken.delete({ where: { token: refreshToken } });
-      return res.status(403).json({ error: "Expired refresh token" });
+      return res.json({ code: "26", error: "Expired refresh token" });
     }
 
     try {
@@ -65,7 +65,7 @@ module.exports = {
       res.json({ accessToken: newAccessToken, refreshToken: newRefreshToken });
     } catch (err) {
       logger.error("Refresh error", { error: err.message });
-      res.status(403).json({ error: "Invalid refresh token" });
+      res.json({ code: "27", error: "Invalid refresh token" });
     }
   },
 
@@ -73,10 +73,10 @@ module.exports = {
     if (!validateInternalApiKey(req, res)) return;
 
     const { userId } = req.body;
-    if (!userId) return res.status(400).json({ error: "Missing userId" });
+    if (!userId) return res.json({ code: "21", error: "Missing userId" });
 
     const user = await prisma.user.findUnique({ where: { userId } });
-    if (!user) return res.status(404).json({ error: "User not found" });
+    if (!user) return res.json({ code: "27", error: "User not found" });
 
     const accessToken = generateAccessToken(userId);
     const refreshToken = await generateRefreshToken(userId);

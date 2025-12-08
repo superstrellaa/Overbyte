@@ -23,7 +23,10 @@ module.exports = (app) => {
           logger.error("Proxy error", {
             error: err.message || err || "Unknown error",
           });
-          res.status(502).send("Bad Gateway");
+          res.json({
+            code: "05",
+            error: "Proxy error, service closed or unknown",
+          });
         },
       },
     })

@@ -78,6 +78,7 @@ class Room {
     }
 
     this.players.set(uuid, { ws, connected: true });
+    global.__CURRENT_PLAYERS__ = (global.__CURRENT_PLAYERS__ || 0) + 1;
 
     const connected = this.playersConnectedCount();
     const allConnected = connected === this.maxPlayers;

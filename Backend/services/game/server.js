@@ -1,4 +1,3 @@
-// server.js (opción B: HTTP y WS en puertos separados)
 const express = require("express");
 const cors = require("cors");
 const rateLimit = require("express-rate-limit");
@@ -8,6 +7,7 @@ const logger = require("@overbyte-backend/shared-logger");
 const registerHealthRoutes = require("./routes/health");
 const registerRoomRoutes = require("./routes/createRoom");
 const { initWebSocket } = require("./ws/websocket");
+const { startNetworkRegistration } = require("./network/register");
 
 function startServer() {
   const app = express();
@@ -50,6 +50,7 @@ function startServer() {
       WSPort: WS_PORT,
     });
   });
+  startNetworkRegistration();
 }
 
 module.exports = { startServer };

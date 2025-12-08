@@ -7,12 +7,12 @@ module.exports = function (app) {
     const authHeader = req.headers.authorization;
 
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
-      return res.status(401).json({ error: "Missing authorization" });
+      return res.json({ code: "51", error: "Missing authorization" });
     }
 
     const token = authHeader.split(" ")[1];
     if (token !== process.env.INTERNAL_API_KEY) {
-      return res.status(403).json({ error: "Invalid internal API key" });
+      return res.json({ code: "54", error: "Invalid internal API key" });
     }
 
     const roomId = nanoid(10);

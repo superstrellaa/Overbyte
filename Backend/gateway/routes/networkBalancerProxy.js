@@ -1,21 +1,22 @@
 const { createProxyMiddleware } = require("http-proxy-middleware");
 const logger = require("@overbyte-backend/shared-logger");
+const { patch } = require("../../services/auth/routes/auth.routes");
 
 module.exports = (app) => {
-  const authTarget =
+  const networkBalancerTarget =
     process.env.NODE_ENV === "production"
-      ? `http://${process.env.AUTH_SERVICE_HOST}:${process.env.AUTH_SERVICE_PORT}`
-      : `http://localhost:3002`;
+      ? `http://${process.env.NETWORK_BALANCER_HOST}:${process.env.NETWORK_BALANCER_PORT}`
+      : `http://localhost:3006`;
 
   app.use(
-    "/auth/user",
+    "/network/register",
     createProxyMiddleware({
-      target: `${authTarget}/auth/user`,
+      target: `${networkBalancerTarget}/network/register`,
       changeOrigin: true,
-      pathRewrite: { "^/auth/user": "" },
+      pathRewrite: { "^/network/register": "" },
       on: {
         proxyReq: (proxyReq, req, res) => {
-          logger.debug("Proxying request to auth service", {
+          logger.debug("Proxying request to network balancer service", {
             path: req.originalUrl,
           });
         },
@@ -33,14 +34,14 @@ module.exports = (app) => {
   );
 
   app.use(
-    "/auth/refresh",
+    "/network/heartbeat",
     createProxyMiddleware({
-      target: `${authTarget}/auth/refresh`,
+      target: `${networkBalancerTarget}/network/heartbeat`,
       changeOrigin: true,
-      pathRewrite: { "^/auth/refresh": "" },
+      pathRewrite: { "^/network/heartbeat": "" },
       on: {
         proxyReq: (proxyReq, req, res) => {
-          logger.debug("Proxying request to auth service", {
+          logger.debug("Proxying request to network balancer service", {
             path: req.originalUrl,
           });
         },
@@ -58,14 +59,14 @@ module.exports = (app) => {
   );
 
   app.use(
-    "/auth/revalidate",
+    "/network/assign-server",
     createProxyMiddleware({
-      target: `${authTarget}/auth/revalidate`,
+      target: `${networkBalancerTarget}/network/assign-server`,
       changeOrigin: true,
-      pathRewrite: { "^/auth/revalidate": "" },
+      pathRewrite: { "^/network/assign-server": "" },
       on: {
         proxyReq: (proxyReq, req, res) => {
-          logger.debug("Proxying request to auth service", {
+          logger.debug("Proxying request to network balancer service", {
             path: req.originalUrl,
           });
         },

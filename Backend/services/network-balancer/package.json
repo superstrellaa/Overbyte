@@ -1,5 +1,5 @@
 {
-  "name": "game-service",
+  "name": "network-balancer-service",
   "version": "1.0.0",
   "main": "index.js",
   "type": "commonjs",
@@ -9,15 +9,10 @@
   },
   "dependencies": {
     "@overbyte-backend/shared-logger": "file:../../shared/logger",
-    "axios": "^1.13.2",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
-    "express-rate-limit": "^8.2.1",
-    "joi": "^18.0.1",
-    "jsonwebtoken": "^9.0.3",
-    "nanoid": "^5.1.6",
-    "ws": "^8.18.3"
+    "express-rate-limit": "^8.2.1"
   },
   "devDependencies": {
     "nodemon": "^3.1.10"

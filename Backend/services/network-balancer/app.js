@@ -2,15 +2,18 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const rateLimit = require("express-rate-limit");
+const networkRoutes = require("./routes/network");
+const cleanup = require("./utils/cleanup");
 const logger = require("@overbyte-backend/shared-logger");
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+
+app.use(express.json());
 
 app.use(
   cors({
     origin: process.env.CORS_ORIGIN || "*",
-    methods: ["GET", "POST", "PUT", "DELETE"],
+    methods: ["GET", "POST"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
@@ -18,8 +21,9 @@ app.use(
 const limiter = rateLimit({
   windowMs: 60 * 1000,
   max: 60,
-  message: { code: "03", error: "Too many requests, slow down!" },
+  message: { code: "43", error: "Too many requests, slow down!" },
 });
+
 app.use(limiter);
 
 app.use((req, res, next) => {
@@ -31,12 +35,8 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get("/", (req, res) => {
-  res.json({ message: "Overbyte Gateway API" });
-});
+app.use("/network", networkRoutes);
 
-require("./routes/authProxy")(app);
-require("./routes/versionProxy")(app);
-require("./routes/networkBalancerProxy")(app);
+cleanup();
 
-app.listen(PORT, () => logger.info("Gateway listening", { port: PORT }));
+module.exports = app;
