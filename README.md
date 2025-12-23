@@ -7,6 +7,14 @@
 
 ## This project do __not have license__, so you are free to copy, sell, create your own project, etc...
 
+# Credits:
+### The main part of the assets in the Unity Project are from:
+- 3D Models: Kenney.nl
+- 2D Assets (GUI, HUD...): Kenney.nl
+- SFX: Kenney.nl
+- Font: Nunito — Designed by Vernon Adams, Cyreal & Jacques Le Bailly
+- - Licensed under the SIL Open Font License, Version 1.1
+
 ## Error code index API's:
 
 ### First Number:
