@@ -1,5 +1,12 @@
 # Overbyte Project
 
+# If you are here because you see that this repository is open-source, I will explain you the folder's index:
+- The real backend that I worked the last time of my live but that isn't finished is the `Backend/` folder
+- Then, the other's `WebSocket/` and `API/` folders are the old backend project that works but... potato
+- And the unity project **6.0** is the main `Overbyte/` folder, the Unity Project it has not been updated to the new backend, so if you want to test it you will be use the `WebSocket/` and `API/` project
+
+## This project do __not have license__, so you are free to copy, sell, create your own project, etc...
+
 ## Error code index API's:
 
 ### First Number:
